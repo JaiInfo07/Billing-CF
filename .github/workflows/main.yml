@@ -35,7 +35,7 @@ jobs:
 
       -  name: Verify Image Contents
          run: |
-            docker run -it --entrypoint /bin/bash cold_fusion_app:latest -c "ls -l /app"
+            docker run --entrypoint ls cold_fusion_app:latest -l /app
 
       -  name: Push Docker Image
          run: |
