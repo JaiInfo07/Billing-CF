@@ -88,7 +88,7 @@ jobs:
          uses: actions/checkout@v3
          
       -  name: build docker image
-         run: docker build -t cold_fusion_app:latest docker-context
+         run: docker build -t cold_fusion_app:latest .
 
       - name: Login to DockerHub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
