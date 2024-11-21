@@ -22,6 +22,9 @@ jobs:
       -  name: Verify Build.zip
          run: ls -la build.zip
 
+      -  name: Login to DockerHub
+         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
       -  name: Build Docker Image
          run: |
             # Ensure build.zip is in the Docker build context
@@ -29,6 +32,11 @@ jobs:
             mv build.zip docker-context/
             mv Dockerfile docker-context/
             docker build -t cold_fusion_app:latest ./docker-context
+
+      -  name: Push Docker Image
+         run: |
+            docker tag cold_fusion_app:latest ${{ secrets.DOCKER_USERNAME }}/cold_fusion_app:latest
+            docker push ${{ secrets.DOCKER_USERNAME }}/cold_fusion_app:latest
 
       -  name: Run Docker Container
          run: |
