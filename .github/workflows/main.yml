@@ -31,13 +31,17 @@ jobs:
             mkdir docker-context
             mv build.zip docker-context/
             mv Dockerfile docker-context/
-            docker build -t cold_fusion_app:latest ./docker-context
+            docker build --no-cache -t cold_fusion_app:latest ./docker-context
+
+      -  name: Verify Image Contents
+         run: |
+            docker run -it --entrypoint /bin/bash cold_fusion_app:latest -c "ls -l /app"
 
       -  name: Push Docker Image
          run: |
             docker tag cold_fusion_app:latest ${{ secrets.DOCKER_USERNAME }}/cold_fusion_app:latest
             docker push ${{ secrets.DOCKER_USERNAME }}/cold_fusion_app:latest
 
-      -  name: Run Docker Container
-         run: |
-            docker run -d -p 8080:8080 --name cold_fusion_app_container cold_fusion_app:latest
+      # -  name: Run Docker Container
+      #    run: |
+      #       docker run -d -p 8080:8080 --name cold_fusion_app_container cold_fusion_app:latest
