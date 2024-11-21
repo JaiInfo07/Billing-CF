@@ -21,8 +21,6 @@ jobs:
               rsync -av ./ ./build --exclude build
               pwd
               zip -r build.zip build
-              mv build.zip ${{ github.workspace }}
-              ls -l ${{ github.workspace }}
 
       -  name: Prepare Docker Build Context
          run: |
